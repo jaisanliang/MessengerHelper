@@ -42,7 +42,9 @@ exports.message = functions.https.onRequest((request, response) => {
 
 function getFullName(name, message, app) {
   messenger({email: functions.config().facebook.email, password: functions.config().facebook.password}, (err, api) => {
-    if(err) return console.error(err);
+    api.setOptions({
+      forceLogin: true
+    });
     api.getUserID(name, (err, data) => {
       if(err) return console.error(err);
       var fullName = data[0].name;
